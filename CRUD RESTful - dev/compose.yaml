@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mydb:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: 'simple_api'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'db4dev$'
+      MYSQL_ROOT_PASSWORD: 'db4dev$'
+    volumes:
+      - .mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d/:ro
+  web:
+    build:
+      context: app
+    ports:
+      - "8081:5000"
+    depends_on:
+      - mydb
